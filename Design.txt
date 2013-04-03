@@ -1,0 +1,17 @@
+This program have three source files.
+
+dnsResolver_utils.cpp defined all the necessary utility function for performing DNS resolving. dnsResolver_main.cpp is the main program to do DNS resolving.
+
+The DNS query packet is composed by integrating the info of the hostname. The format of the packet is composed according to the official documentation RFC 1035.
+
+Then all the root server IP addresses are pushed into a stack. These root servers are the starting points for the DNS resolver to query on. The top of the stack is popped up and the DNS query packet is sent to the popped up IP address. The response from the server is received and parsed. There are three sections in the answer part: Answer Section, Authority Section and Additional Section.
+
+Usually only the last query to the directly authoritative name server can get response contains the IP address in Answer Section. Otherwise we need to parse out the information in Authority Section and Additional Section. We need to send the DNS query packet to the IP address of the lower level name server in Additional Section. Therefore, the IP addressed in additional addresses are pushed into the stack every time there is no Answer Section in the response. We keep doing this until we have IP addresses in Answer Section. If we receive SOA record in Authority Section, it means that the requested name does not exist. 
+
+What's more is that it is possible that we only have the Authority Section, which has the next lower name server, but at the same time the response does not contain the Additional Section. In this case, we need to parse out the hostname of name server in Authority Section, and make the hostname as the input of our DNS resolver program to first find the IP address of the name server. After we find the IP address of the name server, we can resume from where we stopped and contact the IP address of the name server to query for the IP address of the original input hostname. Therefore, the function is implemented in a recursive manner.
+
+For the Answer Section, it can contain both CNAME and IP address, or just IP address, or just CNAME. As long as their is IP address in Answer Section, we have successfully found the IPv4 address for the hostname and the program returns. If only CNAME is included, we need to modify the DNS query packet which include the CNAME but not the original input hostname. Therefore, the following query is for the CNAME.
+
+There are also other issues need to be noticed: 1. Sometimes we cannot get the response from the name server after we sent out the DNS query packet, in this case, we need to set up a time out mechanism and stop waiting for the response after a certain time. This indicates that the communication with the name server is failed and the program just move on to the next name server in the stack. 2. The answer sections in the DNS response packet uses compression, the program needs to carefully decompress the information in three answer part: Answer Section, Authority Section and Additional Section. 3. It is possible to have a circle in the chain of CNAME. To avoid this, we use a set of queryed CNAME. If we encounter the CNAME that has already been queryed in the set, we don't query it anymore and move on to the next CNAME.
+
+The program can be improved in terms of better organizing the structure of the program. There are some code segment that is replicative in the program and can be abstracted into a function.

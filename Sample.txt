@@ -1,0 +1,71 @@
+To verify the correctness of my program, I run extensive test cases.
+First I run the tests cases given by the TA. The output of the test cases are:
+
+cse misc/zzhang> ./DNS_Resolver www.cse.unl.edu
+Parsed CNAME address in Answer section is: cse.unl.edu.
+Parsed IPv4 address is: 129.93.165.2
+
+cse misc/zzhang> ./DNS_Resolver google.com
+Parsed IPv4 address is: 74.125.225.78
+Parsed IPv4 address is: 74.125.225.72
+Parsed IPv4 address is: 74.125.225.66
+Parsed IPv4 address is: 74.125.225.71
+Parsed IPv4 address is: 74.125.225.68
+Parsed IPv4 address is: 74.125.225.70
+Parsed IPv4 address is: 74.125.225.64
+Parsed IPv4 address is: 74.125.225.65
+Parsed IPv4 address is: 74.125.225.69
+Parsed IPv4 address is: 74.125.225.67
+Parsed IPv4 address is: 74.125.225.73
+
+cse misc/zzhang> ./DNS_Resolver www.cam.ac.uk
+Parsed IPv4 address is: 131.111.150.25
+
+cse misc/zzhang> ./DNS_Resolver cmd.unl
+Could not find the IP address for the hostname.
+
+cse misc/zzhang> ./DNS_Resolver www.imdb.com
+Parsed CNAME address in Answer section is: us.dd.imdb.com.
+Parsed IPv4 address is: 72.21.203.211
+
+cse misc/zzhang> ./DNS_Resolver www.lincoln.ne.gov
+Parsed CNAME address in Answer section is: interlinc.lincoln.ne.gov.
+Parsed IPv4 address is: 199.48.10.69
+
+I verify the result of my program by comparing it with the result derived by using 'dig'. All the test cases are successfully passed. They derived the same results as using 'dig'.
+
+I also run several other test cases, trying to cover as many different kinds of hostnames as possible.
+
+cse misc/zzhang> ./DNS_Resolver www.163.com
+Parsed CNAME address in Answer section is: www.cache.wangsu.netease.com.
+Parsed CNAME address in Answer section is: www.163.com.lxdns.com.
+Parsed CNAME address in Answer section is: www.163.com.lxdns.com.
+Parsed CNAME address in Answer section is: public.163.005.cnccdn.com.
+Parsed CNAME address in Answer section is: 163.xdwscache.glb0.lxdns.com.
+Parsed IPv4 address is: 113.107.76.31
+
+cse misc/zzhang> ./DNS_Resolver www.baidu.jp
+Parsed IPv4 address is: 119.63.198.132
+
+cse misc/zzhang> ./DNS_Resolver www.hust.edu.cn
+Parsed IPv4 address is: 202.114.0.245
+
+cse misc/zzhang> ./DNS_Resolver www.hadoop.com
+Parsed IPv4 address is: 216.146.39.125
+
+cse misc/zzhang> ./DNS_Resolver www.nasa.org
+Parsed IPv4 address is: 207.189.109.125
+
+cse misc/zzhang> ./DNS_Resolver www.python.org
+Parsed IPv4 address is: 82.94.164.162
+
+cse misc/zzhang> ./DNS_Resolver www.youku.com
+Parsed CNAME address in Answer section is: bj-b-w.youku.com.
+Parsed IPv4 address is: 211.151.146.209
+
+cse misc/zzhang> ./DNS_Resolver www.mit.edu
+Parsed IPv4 address is: 18.9.22.169
+
+
+
+To my best knowledge, for the test cases I have run, I didn't find in any situations for any valid hostnames that the DNS resolver cannot resolve.
